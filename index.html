@@ -37,6 +37,17 @@ amplitude.getInstance().init('9e139c325cd539f85b840be18a103663', null, {
     <body>
         <h1>Log events via the JS SDK!</h1>
         
+        <p id="currentUser">There is no user logged in! This program logs events as Anonymous when there is no user logged in.</p>
+        
+        <p><label for="fname">Full name:</label><br>
+        <input type="text" id="UserID" name="fname"/>
+        <button onclick="setUserID()">Submit</button>
+        </p>
+        
+        <p>
+            <button onclick="logOut()">Log Out</button>
+        </p>
+        
         <button onclick="logevent()">Log event 1</button>
         <button onclick="logevent2()">Log event 2</button>
         <button onclick="logevent3()">Log event 3</button>
@@ -45,10 +56,32 @@ amplitude.getInstance().init('9e139c325cd539f85b840be18a103663', null, {
     
     <script>
     var identify = new amplitude.Identify().set('gender', 'male').set('age', 25)
-    
     amplitude.getInstance().identify(identify);
+    
+    function setUserID() {
+        var user = document.getElementById("UserID").value;
+        
+        document.getElementById("UserID").value = "";
+        
+        if(user == "") {
+            document.getElementById("currentUser").innerHTML = "There is no user logged in! This program logs events as Anonymous when there is no user logged in.";
+        }
+        else {
+            document.getElementById("currentUser").innerHTML = user + " is logged in and events will be recorded under this user!";
+            amplitude.getInstance().setUserId(user);
+        }
+    }
+        
+    function logOut() {
+        document.getElementById("currentUser").innerHTML = "There is no user logged in! This program logs events as Anonymous when there is no user logged in.";
+        document.getElementById("event").innerHTML = "Anonymous user will start logging events."
+        
+        amplitude.getInstance().setUserId(null); // not string 'null'
+        amplitude.getInstance().regenerateDeviceId();
+    }
+        
     function logevent() {
-        document.getElementById("event").innerHTML = "Logged Event #1!"
+        document.getElementById("event").innerHTML = "Logged Event #1!";
         var eventProperties = {
             color: 'green',
             height: '6 feet'
