@@ -61,27 +61,30 @@ amplitude.getInstance().init('9e139c325cd539f85b840be18a103663', null, {
     function setUserID() {
         var user = document.getElementById("UserID").value;
         
-        document.getElementById("UserID").value = "";
-        
         if(user == "") {
             document.getElementById("currentUser").innerHTML = "There is no user logged in! This program logs events as Anonymous when there is no user logged in.";
         }
         else {
             document.getElementById("currentUser").innerHTML = user + " is logged in and events will be recorded under this user!";
             amplitude.getInstance().setUserId(user);
+            amplitude.getInstance().logEvent('Signed In');
         }
     }
         
     function logOut() {
         document.getElementById("currentUser").innerHTML = "There is no user logged in! This program logs events as Anonymous when there is no user logged in.";
         document.getElementById("event").innerHTML = "Anonymous user will start logging events."
+        document.getElementById("UserID").value = "";
         
         amplitude.getInstance().setUserId(null); // not string 'null'
         amplitude.getInstance().regenerateDeviceId();
     }
         
     function logevent() {
-        document.getElementById("event").innerHTML = "Logged Event #1!";
+        
+        var user = document.getElementById("UserID").value;
+        
+        document.getElementById("event").innerHTML = user + " logged Event #1!";
         var eventProperties = {
             color: 'green',
             height: '6 feet'
@@ -89,7 +92,10 @@ amplitude.getInstance().init('9e139c325cd539f85b840be18a103663', null, {
         amplitude.getInstance().logEvent('Button_Clicked', eventProperties)
     }
     function logevent2() {
-        document.getElementById("event").innerHTML = "Logged Event #2!"
+        
+        var user = document.getElementById("UserID").value;
+        
+        document.getElementById("event").innerHTML = user + " logged Event #2!"
         var eventProperties = {
             color: 'blue',
             height: '5 feet'
@@ -97,7 +103,10 @@ amplitude.getInstance().init('9e139c325cd539f85b840be18a103663', null, {
         amplitude.getInstance().logEvent('Button_Clicked2', eventProperties)
     }
     function logevent3() {
-        document.getElementById("event").innerHTML = "Logged Event #3!"
+        
+        var user = document.getElementById("UserID").value;
+        
+        document.getElementById("event").innerHTML = user + " logged Event #3!"
         var eventProperties = {
             color: 'red',
             height: '7 feet'
