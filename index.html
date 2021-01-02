@@ -72,10 +72,12 @@ amplitude.getInstance().init('9e139c325cd539f85b840be18a103663', null, {
     }
         
     function logOut() {
+        amplitude.getInstance().logEvent('Signed Out'); //Log a sign out event
+        
         document.getElementById("currentUser").innerHTML = "There is no user logged in! This program logs events as Anonymous when there is no user logged in.";
         document.getElementById("event").innerHTML = "Anonymous user will start logging events."
         document.getElementById("UserID").value = "";
-        
+    
         amplitude.getInstance().setUserId(null); // not string 'null'
         amplitude.getInstance().regenerateDeviceId();
     }
